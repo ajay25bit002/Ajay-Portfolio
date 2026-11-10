@@ -44,14 +44,62 @@ projectList.innerHTML = data.projects.map((project, index) => `
 `).join("");
 
 document.querySelector("#certificates-grid").innerHTML = data.certificates.map((certificate, index) => `
-  <article class="certificate-card reveal">
-    <div class="certificate-topline"><span>SIMULATION / 0${index + 1}</span><span class="certificate-mark">${escapeHtml(certificate.mark)}</span></div>
-    <div class="certificate-seal" aria-hidden="true"><span>${escapeHtml(certificate.mark)}</span></div>
+  <article class="certificate-card reveal${certificate.featured ? " is-featured" : ""}">
+    <div class="certificate-topline"><span>${certificate.featured ? '<span class="certificate-featured-badge">FEATURED</span>' : `${certificate.kind === "simulation" ? "JOB SIMULATION" : "CERTIFICATE"} / ${String(index + 1).padStart(2, "0")}`}</span><span class="certificate-mark">${escapeHtml(certificate.mark)}</span></div>
+    <button class="certificate-preview-button" type="button" data-certificate-index="${index}" aria-label="View ${escapeHtml(certificate.title)}" aria-haspopup="dialog">
+      ${certificate.image
+        ? `<img src="${escapeHtml(certificate.image)}" alt="${escapeHtml(certificate.title)} certificate awarded to Ajay R" loading="lazy" decoding="async">`
+        : `<span class="certificate-pdf-preview"><span class="pdf-label">${certificate.source ? "PDF SCAN" : "FORAGE"}</span><span class="pdf-monogram" aria-hidden="true">${escapeHtml(certificate.mark)}</span><span>${certificate.source ? "Original certificate scan" : "Simulation listed in resume"}</span></span>`}
+    </button>
     <h3>${escapeHtml(certificate.title)}</h3>
-    <div class="certificate-meta"><span>${escapeHtml(certificate.issuer)}</span><span>${escapeHtml(certificate.year)}</span></div>
-    <p class="certificate-placeholder">Certificate image not supplied</p>
+    <div class="certificate-meta"><span>${escapeHtml(certificate.issuer)}</span><span>${escapeHtml(certificate.date)}</span></div>
+    ${certificate.detail ? `<p class="certificate-detail">${escapeHtml(certificate.detail)}</p>` : ""}
+    <button class="text-button certificate-view-button" type="button" data-certificate-index="${index}" aria-haspopup="dialog">
+      ${certificate.kind === "simulation" ? "View details" : "View certificate"} <span aria-hidden="true">↗</span>
+    </button>
   </article>
 `).join("");
+
+const certificateDialog = document.querySelector("#certificate-dialog");
+const certificateGrid = document.querySelector("#certificates-grid");
+certificateGrid.addEventListener("click", (event) => {
+  const button = event.target.closest("[data-certificate-index]");
+  if (!button) return;
+  const certificate = data.certificates[Number(button.dataset.certificateIndex)];
+  if (!certificate) return;
+
+  const media = certificateDialog.querySelector("#certificate-dialog-media");
+  const sourceLink = certificateDialog.querySelector("#certificate-source-link");
+  certificateDialog.querySelector("#certificate-dialog-index").textContent =
+    certificate.kind === "simulation" ? "JOB SIMULATION" : "CERTIFICATE";
+  certificateDialog.querySelector("#certificate-dialog-title").textContent = certificate.title;
+  certificateDialog.querySelector("#certificate-dialog-meta").textContent =
+    [certificate.issuer, certificate.date, certificate.detail].filter(Boolean).join(" · ");
+
+  if (certificate.image) {
+    const image = document.createElement("img");
+    image.src = certificate.image;
+    image.alt = `${certificate.title} certificate awarded to Ajay R`;
+    media.replaceChildren(image);
+  } else {
+    const message = document.createElement("p");
+    message.textContent = certificate.source
+      ? "Open the supplied PDF scan to view this certificate."
+      : "This job simulation is listed in the supplied resume; a certificate scan was not provided.";
+    media.replaceChildren(message);
+  }
+
+  const source = certificate.source || certificate.image;
+  sourceLink.hidden = !source;
+  sourceLink.href = source || "#";
+  sourceLink.textContent = certificate.source ? "Open original PDF scan ↗" : "Open full-size certificate ↗";
+  certificateDialog.showModal();
+});
+certificateDialog.querySelector(".certificate-dialog-close")
+  .addEventListener("click", () => certificateDialog.close());
+certificateDialog.addEventListener("click", (event) => {
+  if (event.target === certificateDialog) certificateDialog.close();
+});
 
 document.querySelector("#education-list").innerHTML = data.education.map((item, index) => `
   <article class="education-item reveal">

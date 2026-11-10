@@ -50,9 +50,73 @@ window.portfolioData = {
     }
   ],
   certificates: [
-    { title: "Tata — GenAI Powered Data Analytics Job Simulation", issuer: "Forage", year: "2026", mark: "T" },
-    { title: "Deloitte Australia — Cyber Job Simulation", issuer: "Forage", year: "2026", mark: "D" },
-    { title: "Resume Writing with AI Support Job Simulation", issuer: "Forage", year: "2026", mark: "F" }
+    {
+      title: "Data Structures and Algorithms — With Distinction",
+      issuer: "Science of Apps",
+      date: "October 31, 2026",
+      detail: "100% score",
+      image: "assets/ajay-dsa-certificate.jpg",
+      mark: "DSA",
+      featured: true
+    },
+    {
+      title: "Cybersecurity, Ethical Hacking and Cloud Security",
+      issuer: "KPRCAS · Prompt Infotech",
+      date: "June 1–17, 2026",
+      source: "assets/ajay-cybersecurity-course-certificate.pdf",
+      mark: "SEC",
+      featured: true
+    },
+    {
+      title: "Tata — GenAI Powered Data Analytics Job Simulation",
+      issuer: "Forage",
+      date: "April 17, 2026",
+      image: "assets/ajay-forage-tata-genai-analytics.png",
+      mark: "T",
+      kind: "certificate",
+      featured: true
+    },
+    {
+      title: "Deloitte — Cyber Job Simulation",
+      issuer: "Forage",
+      date: "February 21, 2026",
+      image: "assets/ajay-forage-deloitte-cyber.png",
+      mark: "D",
+      kind: "certificate",
+      featured: true
+    },
+    {
+      title: "Technical Webinar — Unleash the Power of Git & GitHub",
+      issuer: "RVS College of Arts and Science",
+      date: "July 11, 2026",
+      image: "assets/ajay-github-webinar-certificate.jpg",
+      mark: "GIT",
+      featured: true
+    },
+    {
+      title: "Data Science for Beginners",
+      issuer: "Board Infinity",
+      date: "September 28, 2026",
+      image: "assets/ajay-bcard-certificate.jpg",
+      source: "assets/ajay-webinar-and-course-certificates.pdf#page=2",
+      mark: "DS"
+    },
+    {
+      title: "UI/UX Webinar — Certificate of Participation",
+      issuer: "Brandmon Academy",
+      date: "October 6, 2026",
+      image: "assets/ajay-uiux-certificate.jpg",
+      source: "assets/ajay-webinar-and-course-certificates.pdf#page=1",
+      mark: "UX"
+    },
+    {
+      title: "Resume Writing with AI Support Job Simulation",
+      issuer: "Forage",
+      date: "March 25, 2026",
+      image: "assets/ajay-forage-resume-writing-ai.png",
+      mark: "F",
+      kind: "certificate"
+    }
   ],
   education: [
     {
